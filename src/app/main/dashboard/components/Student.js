@@ -19,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 14,
   },
 }));
 
@@ -35,49 +35,49 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const rows = [
   {
-    name: 'Faculty1',
+    name: 'Student1',
     department: 'department1',
     projects: 3,
     salary: 3500
   },
   {
-    name: 'Faculty2',
+    name: 'Student2',
     department: 'department2',
     projects: 1,
     salary: 2500
   },
   {
-    name: 'Faculty3',
+    name: 'Student3',
     department: 'department3',
     projects: 3,
     salary: 3500
   },
   {
-    name: 'Faculty4',
+    name: 'Student4',
     department: 'department4',
     projects: 2,
     salary: 3000
   },
   {
-    name: 'Faculty1',
+    name: 'Student1',
     department: 'department1',
     projects: 3,
     salary: 3500
   },
   {
-    name: 'Faculty2',
+    name: 'Student2',
     department: 'department2',
     projects: 1,
     salary: 2500
   },
   {
-    name: 'Faculty3',
+    name: 'Student3',
     department: 'department3',
     projects: 3,
     salary: 3500
   },
   {
-    name: 'Faculty4',
+    name: 'Student4',
     department: 'department4',
     projects: 2,
     salary: 3000
@@ -85,7 +85,7 @@ const rows = [
 ]
 
 
-function Faculty() {
+function Student() {
 
   // const classes = useStyles()
 
@@ -93,7 +93,7 @@ function Faculty() {
     <div >
       <Card >
         <div style={{padding: '10px'}}>
-          <Typography variant='h6'>Faculty List</Typography>
+          <Typography variant='h6'>Student List</Typography>
         </div>
         <Divider />
         <div style={{padding:'10px'}}>
@@ -127,4 +127,4 @@ function Faculty() {
   )
 }
 
-export default Faculty
+export default Student
