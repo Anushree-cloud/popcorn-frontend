@@ -17,6 +17,7 @@ import { ThemeProvider } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
+import { Campaign, NotificationsNone } from "@mui/icons-material";
 
 
 const theme = createTheme({
@@ -28,6 +29,9 @@ const theme = createTheme({
         // This is green.A700 as hex.
         main: purple[500],
       },
+      white: {
+        main: '#ffffff'
+      }
     },
   });
 
@@ -74,10 +78,36 @@ function Header(props) {
                 <MenuIcon />
             </IconButton>
             <Typography sx={{ flexGrow: 1 }}></Typography>
-            <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
+{/*------------------------------------------------------ Appbar Icons -------------------------------------------------------*/}            
+            <Box sx={{flexGrow: 0}}>
+              <Tooltip title="Notifications">
+                <IconButton>
+                  <NotificationsNone fontSize="large" color="white"/>
+                </IconButton>
+              </Tooltip>
+            </Box>
+
+            <Box sx={{flexGrow: 0}}>
+              <Tooltip title="Announcements">
+                <IconButton>
+                  <Campaign fontSize="large" color="white"/>
+                </IconButton>
+              </Tooltip>
+            </Box>
+{/*---------------------------------------------------------------------------------------------------------------------------*/}
+            <span style={{margin:'0 5px'}}></span>
+{/*----------------------------------------------------- Appbar User Icon --------------------------------------------------- */}
+            <Box sx={{ flexGrow: 0, display:'flex', flexDirection:'row' }}>
+                <Box sx={{display:'flex', flexDirection:'column', textAlign:'right'}}>
+                  <Typography >Test Admin</Typography>
+                  <Typography fontSize='small'>Admin</Typography>
+                </Box>
+
+                <span style={{margin:'0 5px'}}></span>
+
+                <Tooltip title="User Settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar>A</Avatar>
+                    <Avatar>TA</Avatar>
                 </IconButton>
                 </Tooltip>
                 <Menu
@@ -104,6 +134,8 @@ function Header(props) {
                     ))}
                 </Menu>
             </Box>
+{/*---------------------------------------------------------------------------------------------------------------------------*/}
+
             </Toolbar>
         </AppBar>
       </ThemeProvider>

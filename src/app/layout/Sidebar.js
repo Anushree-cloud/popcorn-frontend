@@ -33,10 +33,10 @@ export default function Sidebar (props) {
                 </Typography>
             </div>
             <Typography variant="h5">
-                Test User
+                Test Admin
             </Typography>
             <Typography variant="caption" fontSize={15}>
-                test.user@gmail.com
+                test.admin@gmail.com
             </Typography>
             <Typography sx={{my:2}} />
             <Divider />
