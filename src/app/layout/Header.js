@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { blue, purple } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const theme = createTheme({
       },
       secondary: {
         // This is green.A700 as hex.
-        main: purple[500],
+        main: blue[500],
       },
       white: {
         main: '#ffffff'
@@ -40,14 +40,15 @@ const theme = createTheme({
 const settings = ["Profile", "Account", "Logout"];
 
 function Header(props) {
+  
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [listOpen, setListOpen] = React.useState(true);
-
-  const handleOpenSubList = () => {
-    setListOpen(!listOpen);
-  };
-
+  
+  if(!props.isLoggedIn){
+    return(
+      <></>
+    )
+  }
 //   const router = useNavigate()
 
   const handleDrawerToggle = () => {
@@ -61,6 +62,11 @@ function Header(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    props.manageIsLoggedIn(false)
+    handleCloseUserMenu()
+  }
 
   return (
     <Box sx={{ display: "flex", height: '8vh' }}>
@@ -127,11 +133,17 @@ function Header(props) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-                    {settings.map((setting) => (
+                    {/* {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
                             <Typography textAlign="center">{setting}</Typography>
                         </MenuItem>
-                    ))}
+                    ))} */}
+                    <MenuItem key={1} onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">My Profile</Typography>
+                    </MenuItem>
+                    <MenuItem key={2} onClick={handleLogout}>
+                            <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
                 </Menu>
             </Box>
 {/*---------------------------------------------------------------------------------------------------------------------------*/}
@@ -143,8 +155,8 @@ function Header(props) {
       <Box component="nav">
         <Sidebar 
             handleDrawerToggle={handleDrawerToggle}
-            handleOpenSubList={handleOpenSubList}
-            listOpen={listOpen}
+            // handleOpenSubList={handleOpenSubList}
+            // listOpen={listOpen}
             mobileOpen={mobileOpen}
         />
       </Box>

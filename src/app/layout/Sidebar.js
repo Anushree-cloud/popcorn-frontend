@@ -13,14 +13,28 @@ export default function Sidebar (props) {
 
     let { 
         handleDrawerToggle,
-        handleOpenSubList,
-        listOpen,
         mobileOpen
     } = props
 
     const router = useNavigate()
 
+    const [selectedIndex, setSelectedIndex] = React.useState('')
+
+    const handleOpenSubList = (itemId) => {
+        selectedIndex !== itemId ?
+            handleSetIndex(itemId) : handleUnsetIndex()
+    };
+
+    const handleSetIndex = (index) => setSelectedIndex(index)
+
+    const handleUnsetIndex = () => setSelectedIndex('')
+
     const onOpeningModelPages = (path) => router(path)
+
+    const setOnClickOnChildExistence = (path = undefined, id) => {
+        !path ? handleOpenSubList(id) : onOpeningModelPages(path)
+    }
+
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -47,21 +61,24 @@ export default function Sidebar (props) {
                             <ListItem key={item.id} disablePadding sx={{ display:'block' }}>
                                 <ListItemButton 
                                     sx={{ textAlign: "left" }}
-                                    // onClick={ !item.path ? handleOpenSubList : onOpeningModelPages(item.path) }
-                                    onClick = {!item.path ? handleOpenSubList : () => onOpeningModelPages(item.path)}
+                                    onClick = {() => setOnClickOnChildExistence(item?.path, item.id)}
                                 >
                                     <ListItemIcon> {item.icon} </ListItemIcon>
                                     <ListItemText  primary={item.name} />
-                                    <ListItemIcon>
-                                        {item?.children && (listOpen? <ExpandMore /> : <ExpandLess />) }
-                                    </ListItemIcon>
+                                    {item?.children && 
+                                        <ListItemIcon>
+                                            {(selectedIndex !== item.id)? <ExpandMore /> : <ExpandLess />} 
+                                        </ListItemIcon>
+                                    }
+                                    
                                 </ListItemButton>
                             </ListItem>
+
                             { item?.children && 
                                 <>
                                     
-                                    <Collapse in={!listOpen} timeout="auto" unmountOnExit>
-                                        <List>
+                                    <Collapse in={selectedIndex === item.id} timeout="auto" unmountOnExit>
+                                        <List sx={{marginLeft:'50px'}}>
                                             {item?.children.map(childItem => {
                                                 return (
                                                     <ListItem key={childItem.id} disablePadding sx={{ display:'block' }}>
@@ -100,6 +117,7 @@ export default function Sidebar (props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor:'#f2f2f2'
             },
           }}
         >
