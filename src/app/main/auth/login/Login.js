@@ -12,6 +12,15 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import { setUser } from './store/reducer';
+// import withReducer from 'react-router-dom'
+
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../store/userSlice';
+import axios from '../../../utils/axios';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Copyright(props) {
   return (
@@ -28,16 +37,37 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Login(props) {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    props.manageIsLoggedIn(true)
+function Login(props) {
+    
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      setUserData(new FormData(event.currentTarget))
   };
+
+  const setUserData = (formData) => {
+
+    let userDetails = {
+      email:formData.get('email'),
+      password: formData.get('password')
+    }
+
+    axios.post('/auth/login', userDetails).then(response => {
+      // resetUserData(formData)
+      navigate('/')
+      dispatch(setCurrentUser(response.data.data.user))
+    }).catch(err => {
+      console.log('59=>',err);
+    })
+    
+  }
+
+  const resetUserData = (formData) => {
+    formData.set('email','')
+    formData.set('password','')
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -126,3 +156,5 @@ export default function Login(props) {
     </ThemeProvider>
   );
 }
+
+export default Login

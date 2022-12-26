@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card, Paper, InputBase, IconButton, Pagination } from '@mui/material'
-import { styled, alpha } from '@mui/material/styles';
+import { Card, Paper, Pagination } from '@mui/material'
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -9,11 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { blue } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
-import ModuleHeader from '../../../utils/ModuleHeader';
+import ModuleHeader from '../../../utils/moduleHeader.js';
 import OptionBar from './OptionBar';
-import { SchoolRounded, Search, SearchOffRounded } from '@mui/icons-material';
-import { Stack } from '@mui/system';
-
+import { SchoolRounded } from '@mui/icons-material';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

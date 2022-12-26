@@ -3,11 +3,8 @@ import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -18,6 +15,8 @@ import { ThemeProvider } from "@mui/material";
 
 import Sidebar from "./Sidebar";
 import { Campaign, NotificationsNone } from "@mui/icons-material";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import UserSettings from "./UserSettings";
 
 
 const theme = createTheme({
@@ -35,38 +34,14 @@ const theme = createTheme({
     },
   });
 
-
-
-const settings = ["Profile", "Account", "Logout"];
-
 function Header(props) {
-  
+
+  const currentUser = useCurrentUser()
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
-  if(!props.isLoggedIn){
-    return(
-      <></>
-    )
-  }
-//   const router = useNavigate()
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleLogout = () => {
-    props.manageIsLoggedIn(false)
-    handleCloseUserMenu()
-  }
 
   return (
     <Box sx={{ display: "flex", height: '8vh' }}>
@@ -105,46 +80,14 @@ function Header(props) {
 {/*----------------------------------------------------- Appbar User Icon --------------------------------------------------- */}
             <Box sx={{ flexGrow: 0, display:'flex', flexDirection:'row' }}>
                 <Box sx={{display:'flex', flexDirection:'column', textAlign:'right'}}>
-                  <Typography >Test Admin</Typography>
-                  <Typography fontSize='small'>Admin</Typography>
+                  <Typography >{currentUser.first_name} {currentUser.last_name}</Typography>
+                  <Typography fontSize='small'>{currentUser?.role?.display_name}</Typography>
                 </Box>
 
                 <span style={{margin:'0 5px'}}></span>
 
-                <Tooltip title="User Settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar>TA</Avatar>
-                </IconButton>
-                </Tooltip>
-                <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    style={{width: '150px !important'}}
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                >
-                    {/* {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                    ))} */}
-                    <MenuItem key={1} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">My Profile</Typography>
-                    </MenuItem>
-                    <MenuItem key={2} onClick={handleLogout}>
-                            <Typography textAlign="center">Logout</Typography>
-                    </MenuItem>
-                </Menu>
+                <UserSettings currentUser={currentUser}/>
+                
             </Box>
 {/*---------------------------------------------------------------------------------------------------------------------------*/}
 
@@ -157,6 +100,7 @@ function Header(props) {
             handleDrawerToggle={handleDrawerToggle}
             // handleOpenSubList={handleOpenSubList}
             // listOpen={listOpen}
+            currentUser = {currentUser}
             mobileOpen={mobileOpen}
         />
       </Box>

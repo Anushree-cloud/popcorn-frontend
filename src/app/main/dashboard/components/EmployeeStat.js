@@ -1,6 +1,6 @@
 import { Card, Divider, Grid, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
-import StatCard from '../../../utils/StatCard'
+import StatCard from '../../../utils/customCards/StatCard'
 import FeedSharpIcon from '@mui/icons-material/FeedSharp';
 import { useNavigate } from 'react-router-dom';
 

@@ -13,7 +13,8 @@ export default function Sidebar (props) {
 
     let { 
         handleDrawerToggle,
-        mobileOpen
+        mobileOpen,
+        currentUser
     } = props
 
     const router = useNavigate()
@@ -47,10 +48,10 @@ export default function Sidebar (props) {
                 </Typography>
             </div>
             <Typography variant="h5">
-                Test Admin
+                {currentUser.first_name} {currentUser.lastName}
             </Typography>
             <Typography variant="caption" fontSize={15}>
-                test.admin@gmail.com
+                {currentUser.email}
             </Typography>
             <Typography sx={{my:2}} />
             <Divider />
@@ -101,12 +102,12 @@ export default function Sidebar (props) {
         </Box>
     )
 
-    const container =
-    window !== undefined ? () => window().document.body : undefined;
+    // const container =
+    // window !== undefined ? () => window().document.body : undefined;
 
     return(
         <Drawer
-          container={container}
+        //   container={container}
           variant="permanent"
           open={mobileOpen}
           onClose={handleDrawerToggle}

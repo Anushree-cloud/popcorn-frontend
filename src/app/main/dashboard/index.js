@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import React from 'react'
 import EmployeeStat from './components/EmployeeStat'
 import OngoingClasses from './components/OngoingClasses';
-console.log('3=>',EmployeeStat);
+
 function Dashboard() {
   return (
     <div style={{ padding: '10px' }}>

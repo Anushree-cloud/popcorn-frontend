@@ -7,7 +7,7 @@ function StatCard({
     icon,
     onClickHandler = undefined
 }) {
-    console.log('10=>',onClickHandler);
+   
   return (
     <div>
        <Card 

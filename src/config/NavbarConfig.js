@@ -17,19 +17,19 @@ export const navItemsMain = [
         icon: <PeopleAlt color="primary" />,
         children: [
             {
-                id:1,
+                id:2.1,
                 name: "Faculties",
                 path: '/employee/faculties',
                 icon: <SchoolRoundedIcon color="primary" />,
             },
             {
-                id:2,
+                id:2.2,
                 name: "Staffs",
                 path: '/employee/staff',
                 icon: <SchoolRoundedIcon color="primary" />,
             },
             {
-                id:3,
+                id:2.3,
                 name: "HOD",
                 path: '/employee/hod',
                 icon: <SchoolRoundedIcon color="primary" />,
@@ -43,7 +43,7 @@ export const navItemsMain = [
         icon: <SchoolRoundedIcon color="primary" />,
     },
     {
-        id:3,
+        id:4,
         name: "Departments",
         path: '/departments',
         icon: <BatchPrediction color="primary" />,
@@ -60,19 +60,19 @@ export const navItemsMain = [
         icon: <TouchApp color="primary" />,
         children: [
             {
-                id: 1,
+                id: 6.1,
                 name: "All Courses",
                 path: '/courses-all',
                 icon: <TouchApp color="primary" />
             },
             {
-                id: 1,
+                id: 6.2,
                 name: "Ongoing Courses",
                 path: '/courses-ongoing',
                 icon: <TouchApp color="primary" />
             },
             {
-                id: 1,
+                id: 6.3,
                 name: "Upcoming Courses",
                 path: '/courses-upcoming',
                 icon: <TouchApp color="primary" />
