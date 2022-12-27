@@ -19,15 +19,28 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../store/userSlice';
 import axios from '../../../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton, InputAdornment } from '@mui/material';
 
+const schema = yup.object({
+  email: yup.string().required('Email is required!').matches(/^[a-zA-Z0-9._\-+]+@[a-zA-Z0-9-.+_]+\.[a-zA-Z]{2,6}$/, 'Please type a valid email!'),
+  password: yup.string().required('Password is required!')
+})
 
+const defaultValues = {
+	email: '',
+	password: '',
+}
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        Popcorn
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -38,36 +51,38 @@ function Copyright(props) {
 const theme = createTheme();
 
 function Login(props) {
+
+    const { control, formState, handleSubmit, reset } = useForm({
+      mode: 'onChange',
+      defaultValues,
+      resolver: yupResolver(schema)
+    })
+
+    const { errors } = formState
+
+    const [showPassword, setShowPassword] = React.useState(false)
     
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      setUserData(new FormData(event.currentTarget))
-  };
+    const submitForm = (formData) => {
+      reset(defaultValues)
+      setUserData(formData)
+    };
 
-  const setUserData = (formData) => {
-
-    let userDetails = {
-      email:formData.get('email'),
-      password: formData.get('password')
+    const toggleShowPassword = () => {
+      setShowPassword(!showPassword)
     }
 
-    axios.post('/auth/login', userDetails).then(response => {
-      // resetUserData(formData)
-      navigate('/')
-      dispatch(setCurrentUser(response.data.data.user))
-    }).catch(err => {
-      console.log('59=>',err);
-    })
-    
-  }
-
-  const resetUserData = (formData) => {
-    formData.set('email','')
-    formData.set('password','')
-  }
+    const setUserData = (formData) => {
+      axios.post('/auth/login', formData).then(response => {
+        navigate('/')
+        dispatch(setCurrentUser(response.data.data.user))
+      }).catch(err => {
+        console.log('59=>',err);
+      })
+      
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -103,39 +118,81 @@ function Login(props) {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+            <Box sx={{ mt: 1 }}>
+              <form
+                name='login'
+                noValidate
+                onSubmit={handleSubmit(submitForm)}
               >
-                Sign In
-              </Button>
+                <Controller
+                  name='email'
+                  control={control}
+                  render={({field}) => (
+                    <TextField
+                      {...field}
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      autoFocus
+                      error={errors.email}
+                      helperText={errors?.email?.message}
+                    />
+                  )}
+                />
+                <Controller 
+                  name= {'password'}
+                  control={control}
+                  render={({field}) => {
+                    return (
+                      <TextField
+                        {...field}
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        // autoComplete="current-password"
+                        error={errors.password}
+                        helperText={errors.password?.message}
+                        InputProps = {{
+                          endAdornment: 
+                          <>
+                            <InputAdornment>
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={toggleShowPassword}
+                                onMouseDown={toggleShowPassword}
+                                edge="end"
+                              >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                            </InputAdornment>
+                          </>
+                        }}
+                      />
+                    )
+                  }}
+                />
+
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign In
+                </Button>
+                
+              </form>
+              
+              
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
