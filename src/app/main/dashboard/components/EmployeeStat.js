@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function EmployeeStat() {
-    
+     
     const navigate = useNavigate()
 
     const goToDetailsPage = (path) => navigate(path)
