@@ -12,19 +12,18 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { setUser } from './store/reducer';
-// import withReducer from 'react-router-dom'
+
 import { manageLoggingSuccess } from '../store/loginSlice';
 
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../store/userSlice';
 import axios from '../../../utils/axios';
-import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment } from '@mui/material';
+import useToast from '../../../../hooks/useToast';
 
 const schema = yup.object({
   email: yup.string().required('Email is required!').matches(/^[a-zA-Z0-9._\-+]+@[a-zA-Z0-9-.+_]+\.[a-zA-Z]{2,6}$/, 'Please type a valid email!'),
@@ -63,8 +62,9 @@ function Login(props) {
 
     const [showPassword, setShowPassword] = React.useState(false)
     
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const dispatch = useDispatch()
+    const toast = useToast(dispatch)
 
     const submitForm = (formData) => {
       reset(defaultValues)
@@ -77,11 +77,22 @@ function Login(props) {
 
     const setUserData = (formData) => {
       axios.post('/auth/login', formData).then(response => {
-        sessionStorage.setItem('token', response.data.data.token)
-        dispatch(manageLoggingSuccess(true))
-        dispatch(setCurrentUser(response.data.data.user))
+        
+        if(response.status === 201){
+         toast.error(response.data.message)
+        }
+
+        else{
+          sessionStorage.setItem('token', response.data.data.token)
+          dispatch(manageLoggingSuccess(true))
+          dispatch(setCurrentUser(response.data.data.user))
+          toast.success('Logged in Successfully.')
+        }
+
       }).catch(err => {
         console.log('59=>',err);
+        toast.error(err.response.data.message)
+        
       })
       
     }

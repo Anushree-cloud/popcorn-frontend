@@ -13,6 +13,7 @@ import FacultyDetails from './main/faculty/components/FacultyDetails';
 import Login from './main/auth/login/Login';
 import PageNotFound from './utils/PageNotFound';
 import { useSelector } from 'react-redux';
+import CustomToast from './utils/customToast';
 
 function App() {
 
@@ -20,12 +21,11 @@ function App() {
   
   return (
     <div className="App">
-         
+      <>
         { !loggingSuccess ? <Login/> 
           : 
           <>
            <Header/>
-
            <div style={{marginLeft: 300}}>
               <Routes>
                 <Route path='/students' element={<Student />} />
@@ -35,15 +35,13 @@ function App() {
                 <Route path='/employee/staff' element={<Staff />} />
                 <Route path='/projects' element={<Projects />} />
                 <Route path='/' element={<Dashboard />} />
-                {/* <Route path='/login' element={<Login />} /> */}
                 <Route path='*' element={<PageNotFound />} />
               </Routes>
           </div>
           </>
         }
-          
-        
-      
+        <CustomToast />
+      </>
     </div>
   );
 }
