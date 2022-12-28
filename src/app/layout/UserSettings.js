@@ -1,10 +1,17 @@
 import { Call, ExitToApp, Info, Portrait } from '@mui/icons-material';
 import { Avatar, Divider, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { userLoggedOut } from '../main/auth/store/userSlice'
+import { manageLoggingSuccess } from '../main/auth/store/loginSlice';
 
-function UserSettings({currentUser}) {
+// function UserSettings({currentUser, manageLoggingIn}) {
+function UserSettings({currentUser}) {    
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -15,7 +22,18 @@ function UserSettings({currentUser}) {
     };
 
     const handleLogout = () => {
-        handleCloseUserMenu()
+        const token = sessionStorage.getItem('token')
+        if(token) {
+            sessionStorage.removeItem('token')
+            setUserDetails()
+            handleCloseUserMenu()
+        }
+        
+    }
+
+    const setUserDetails = () => {
+        dispatch(manageLoggingSuccess(false))
+        dispatch(userLoggedOut())
     }
 
     return (

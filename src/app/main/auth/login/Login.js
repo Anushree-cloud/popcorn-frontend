@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { setUser } from './store/reducer';
 // import withReducer from 'react-router-dom'
+import { manageLoggingSuccess } from '../store/loginSlice';
 
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../store/userSlice';
@@ -76,7 +77,8 @@ function Login(props) {
 
     const setUserData = (formData) => {
       axios.post('/auth/login', formData).then(response => {
-        navigate('/')
+        sessionStorage.setItem('token', response.data.data.token)
+        dispatch(manageLoggingSuccess(true))
         dispatch(setCurrentUser(response.data.data.user))
       }).catch(err => {
         console.log('59=>',err);
