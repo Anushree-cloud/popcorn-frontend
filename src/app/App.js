@@ -1,8 +1,7 @@
 import './App.css';
 import * as React from 'react'
 import Dashboard from './main/dashboard';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Provider } from 'react-redux';
+import { Route, Routes } from 'react-router-dom'
 
 import Header from './layout/Header';
 import Projects from './main/projects';
@@ -12,19 +11,22 @@ import Staff from './main/staff'
 import Student from './main/student';
 import FacultyDetails from './main/faculty/components/FacultyDetails';
 import Login from './main/auth/login/Login';
-import {store} from './main/auth/store/index'
 import PageNotFound from './utils/PageNotFound';
+import { useSelector } from 'react-redux';
 
 function App() {
+
+  const {loggingSuccess} = useSelector(state => state.login)
   
   return (
     <div className="App">
-      
-      {/* <Provider store={store}>
-      <BrowserRouter> */}
-                  
-        <Header/>
-          <div style={{marginLeft: 300}}>
+         
+        { !loggingSuccess ? <Login/> 
+          : 
+          <>
+           <Header/>
+
+           <div style={{marginLeft: 300}}>
               <Routes>
                 <Route path='/students' element={<Student />} />
                 <Route path='/employee/faculties' element={<FacultyListing />} />
@@ -33,13 +35,15 @@ function App() {
                 <Route path='/employee/staff' element={<Staff />} />
                 <Route path='/projects' element={<Projects />} />
                 <Route path='/' element={<Dashboard />} />
-                <Route path='/login' element={<Login />} />
+                {/* <Route path='/login' element={<Login />} /> */}
                 <Route path='*' element={<PageNotFound />} />
               </Routes>
           </div>
+          </>
+        }
+          
         
-      {/* </BrowserRouter>
-      </Provider> */}
+      
     </div>
   );
 }

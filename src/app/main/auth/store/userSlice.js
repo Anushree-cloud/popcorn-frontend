@@ -12,7 +12,7 @@ const initialState = {
     // isLoading: true
 }
 
-export const loginSlice = createSlice({
+export const userSlice = createSlice({
     name: 'User',
     initialState,
     reducers: {
@@ -23,6 +23,6 @@ export const loginSlice = createSlice({
     }
 })
 
-export const { setCurrentUser } = loginSlice.actions
+export const { setCurrentUser, userLoggedOut } = userSlice.actions
 
-export default loginSlice.reducer;
+export default userSlice.reducer;

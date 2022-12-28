@@ -86,7 +86,7 @@ function Header(props) {
 
                 <span style={{margin:'0 5px'}}></span>
 
-                <UserSettings currentUser={currentUser}/>
+                <UserSettings currentUser={currentUser} />
                 
             </Box>
 {/*---------------------------------------------------------------------------------------------------------------------------*/}
